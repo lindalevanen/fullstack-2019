@@ -7,7 +7,7 @@ const App = (props) => {
 
   const vote = () => {
     const newVotes = [...votes]
-    newVotes[selected] = newVotes[selected] + 1
+    newVotes[selected] = newVotes[selected] + 1 
     setVotes(newVotes)
   }
 
