@@ -1,0 +1,32 @@
+title 0.6: uusi muistiinpano
+
+note over selain:
+Käyttäjä kirjoittaa tekstikenttään 'Testiviesti'
+ja painaa nappia tallenna. Tälle napille on tällä kertaa määritetty
+custom onsubmit-funktio, jossa se luo palvelimelle lähetettävän
+note-objektin formin input-elementin sisällöllä ja uudella ajanhetkellä.
+Muistiinpano-input tyhjennetään, uusi muistiinpano lisätään notes-arrayhyn
+ja lista piirretään uusiksi päivitetyn arrayn sisällöllä.
+Lopuksi muistiinpano lähetetään palvelimelle uudelle XMLHttpRequest-
+instanssille asetettujen konffien mukaan ('POST', '/new_note_spa') jsonina.
+end note
+
+selain->palvelin: HTTP PUSH https://fullstack-exampleapp.herokuapp.com/new_note
+
+note over palvelin:
+Palvelinpäässä on määritetty mitä tapahtuu, kun palvelin
+vastaanottaa PUSH-requestin polkuun /new_note:_spa:
+
+Palvelin ottaa muistiinpano-olion suoraan 'request bodystä'
+ja tallentaa sen. 
+Onnistuneesta luomisoperaatiosta palvelin vastaa selaimelle
+koodilla 201 ja messagella 'note created'.
+end note
+
+palvelin-->selain: status code 201 {message: 'note created'}
+
+note over selain:
+Selain vastaanottaa 201 responsen, mutta sivua tai listaakaan
+ei tarvitse päivittää, koska muistiinpano oli jo aikaisemmin lisätty
+listaan.
+end note

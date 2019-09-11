@@ -1,0 +1,32 @@
+title 0.4: uusi muistiinpano
+
+note over selain:
+Käyttäjä kirjoittaa tekstikenttään 'Testiviesti'
+ja painaa nappia tallenna. Tämä nappi on tyyppiä submit
+jonka painalluksesta formissa aktivoituu formin lähetys
+metodilla PUSH (formin method-parametrissa määritetty)
+polkuun /new_note (formin action-parametrissa määritetty).
+end note
+
+selain->palvelin: HTTP PUSH https://fullstack-exampleapp.herokuapp.com/new_note
+
+note over palvelin:
+Palvelinpäässä on määritetty mitä tapahtuu, kun palvelin
+vastaanottaa PUSH-requestin polkuun /new_note:
+
+Palvelin luo uutta muistiinpanoa vastaavan olion,
+jolla on 'requestin bodystä' haettu sisältö, ja päivämäärä,
+joka on asetettu olemaan ohjelman ajon aikainen hetki.
+
+Onnistuneesta luomisoperaatiosta palvelin vastaa selaimelle
+pyynnöllä päivittää sivu.
+end note
+
+palvelin-->selain: status code 302 (refresh page)
+
+note over selain:
+Selaimen vastaanotettua 302 responsen, 
+selain päivittää sivun, jolloin suoritetaan sivun käynnistämisen
+alussa suoritettavat operaatiot palvelimen kanssa.
+end note
+
