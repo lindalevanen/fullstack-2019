@@ -23,3 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 /.vscode
+osa2/maatiedot/src/weather_access_key.js
