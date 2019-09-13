@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
+import './app.css'
 import PersonService from './PersonService'
 
 const FilterControl = ({filter, handleFilterChange}) => (
@@ -37,12 +37,26 @@ const PersonList = ({persons, filter, onPersonDelete}) => (
     ))
 )
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className={`notification ${message.success ? 'success' : 'error'}`}>
+      {message.text}
+    </div>
+  )
+}
+
+
 const App = () => {
 
   const [ persons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter ] = useState('')
+  const [ notificationMessage, setNotificationMessage ] = useState(null)
 
   useEffect(() => {
     PersonService
@@ -78,12 +92,23 @@ const App = () => {
     }
   }
 
+  const showNotification = (text, success) => {
+    setNotificationMessage({text, success})
+    setTimeout(() => {
+      setNotificationMessage(null)
+    }, 5000)
+  }
+
   const createPerson = person => {
     PersonService
       .create(person)
       .then(newPerson => {
         setPersons(persons.concat(newPerson))
         clearFields()
+        showNotification(`Added ${newPerson.name}`, true)
+      })
+      .catch(error => {
+        showNotification(`Information of ${person.name} has already been removed from the server`, false)
       })
   }
 
@@ -91,9 +116,13 @@ const App = () => {
     if (window.confirm(`Delete ${person.name}?`)) { 
       PersonService
         .remove(person.id)
-        .then(deletedPerson => {
+        .then(() => {
           const newPersons = persons.filter(p => p.id !== person.id)
           setPersons(newPersons)
+          showNotification(`Deleted ${person.name}`, true)
+        })
+        .catch(error => {
+          showNotification(`Information of ${person.name} has already been removed from the server`, false)
         })
     }
   }
@@ -104,6 +133,10 @@ const App = () => {
       .then(newPerson => {
         setPersons(persons.map(p => p.id !== newPerson.id ? p : newPerson))
         clearFields()
+        showNotification(`Updated ${newPerson.name}`, true)
+      })
+      .catch(error => {
+        showNotification(`Information of ${updatedPerson.name} has already been removed from the server`, false)
       })
   }
 
@@ -124,6 +157,8 @@ const App = () => {
           newNumber={newNumber}
           handleNumberChange={handleNumberChange}
       />
+      <Notification message={notificationMessage}  />
+
       <h2>Numbers</h2>
       <PersonList persons={persons} filter={filter} onPersonDelete={deletePerson} />
     </div>
