@@ -108,7 +108,11 @@ const App = () => {
         showNotification(`Added ${newPerson.name}`, true)
       })
       .catch(error => {
-        showNotification(`Information of ${person.name} has already been removed from the server`, false)
+        if(error.response.data.error) {
+          showNotification(error.response.data.error, false)
+        } else {
+          showNotification(`Adding the number for ${person.name} failed.`, false)
+        }
       })
   }
 
@@ -136,7 +140,12 @@ const App = () => {
         showNotification(`Updated ${newPerson.name}`, true)
       })
       .catch(error => {
-        showNotification(`Information of ${updatedPerson.name} has already been removed from the server`, false)
+        console.log(error.response.data)
+        if(error.response.data.error) {
+          showNotification(error.response.data.error, false)
+        } else {
+          showNotification(`Information of ${updatedPerson.name} has already been removed from the server`, false)
+        }
       })
   }
 
