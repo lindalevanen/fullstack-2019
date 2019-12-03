@@ -2,7 +2,7 @@ import React from 'react'
 import './styles.css'
 
 const Blog = ({ blog, onClick, active, onBlogLike, onBlogRemove }) => (
-  <div className='blog-item' onClick={() => onClick(blog.id)}>
+  <div className='blog-item' onClick={onClick}>
     {blog.title} {blog.author || 'Anonymous'}
     {active && (
       <>

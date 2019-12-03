@@ -161,7 +161,7 @@ const BlogList = ({user}) => {
         <Blog 
           key={b.id}
           blog={b}
-          onClick={openBlog}
+          onClick={() => openBlog(b.id)}
           active={b.id === activeBlogId}
           onBlogLike={(e) => { e.stopPropagation(); likeBlog(b.id, b.likes + 1) }}
           onBlogRemove={user.username === b.user.username && (() => removeBlog(b))}
