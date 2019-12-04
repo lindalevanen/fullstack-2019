@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import loginService from '../../services/login' 
+import React, { useState } from 'react'
+import loginService from '../../services/login'
 import blogService from '../../services/blogs'
 import Notification from '../common/Notification'
 
 const Login = ({ onUserReceived }) => {
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
 
   const handleLogin = async (event) => {
@@ -15,7 +15,7 @@ const Login = ({ onUserReceived }) => {
         username, password
       })
       blogService.setToken(user.token)
-      window.localStorage.setItem('user', JSON.stringify(user)) 
+      window.localStorage.setItem('user', JSON.stringify(user))
       onUserReceived(user)
     } catch (e) {
       if (e.response) {
@@ -28,7 +28,7 @@ const Login = ({ onUserReceived }) => {
   }
 
   const showErrorMessage = (text, success) => {
-    setErrorMessage({text, success})
+    setErrorMessage({ text, success })
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
@@ -42,7 +42,7 @@ const Login = ({ onUserReceived }) => {
       <form onSubmit={handleLogin}>
         <div>
           username
-            <input
+          <input
             type="text"
             value={username}
             name="Username"
@@ -51,7 +51,7 @@ const Login = ({ onUserReceived }) => {
         </div>
         <div>
           password
-            <input
+          <input
             type="password"
             value={password}
             name="Password"

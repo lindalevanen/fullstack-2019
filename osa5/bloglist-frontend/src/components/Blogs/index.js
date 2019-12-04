@@ -1,6 +1,6 @@
 
 
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import blogService from '../../services/blogs'
 import Blog from './Blog'
 import BlogForm from './BlogForm'
@@ -10,8 +10,8 @@ import Notification from '../common/Notification'
 const BlogListView = ({ user }) => {
   const [ blogs, setBlogs ] = useState([])
   const [ notificationMessage, setNotificationMessage ] = useState(null)
-  const [ blogFormVisible, showBlogForm ] = useState(false)
-  const [ activeBlogId, setActiveBlogId ] = useState(null)
+  const [ blogFormVisible, showBlogForm ] = useState(false)
+  const [ activeBlogId, setActiveBlogId ] = useState(null)
 
   useEffect(() => {
     const getBlogs = async () => {
@@ -23,7 +23,7 @@ const BlogListView = ({ user }) => {
         if(error.response.data.error) {
           showNotification(error.response.data.error, false)
         } else {
-          showNotification(`An error occurred...`, false)
+          showNotification('An error occurred...', false)
         }
       }
     }
@@ -32,7 +32,7 @@ const BlogListView = ({ user }) => {
 
   const logout = () => {
     window.localStorage.removeItem('user')
-    window.location.reload(true);
+    window.location.reload(true)
   }
 
   const addBlog = blog => {
@@ -55,7 +55,7 @@ const BlogListView = ({ user }) => {
 
   const removeBlog = async blog => {
     try {
-      if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) { 
+      if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
         await blogService.remove(blog.id)
         const newBlogs = blogs.filter(b => b.id !== blog.id)
         setBlogs(newBlogs)
@@ -67,7 +67,7 @@ const BlogListView = ({ user }) => {
   }
 
   const showNotification = (text, success) => {
-    setNotificationMessage({text, success})
+    setNotificationMessage({ text, success })
     setTimeout(() => {
       setNotificationMessage(null)
     }, 5000)
@@ -78,10 +78,10 @@ const BlogListView = ({ user }) => {
     if(e.response && e.response.data.error) {
       showNotification(e.response.data.error, false)
     } else {
-      showNotification(`An error occurred...`, false)
+      showNotification('An error occurred...', false)
     }
   }
-  
+
   return (
     <>
       <h2>Blogs</h2>
@@ -90,9 +90,9 @@ const BlogListView = ({ user }) => {
       <p>{user.username} logged in <button onClick={logout}>logout</button></p>
 
       {blogFormVisible ? (
-        <BlogForm 
-          addBlog={addBlog} 
-          showNotification={showNotification} 
+        <BlogForm
+          addBlog={addBlog}
+          showNotification={showNotification}
           onHideForm={() => showBlogForm(false)}
         />
       ) : (
@@ -100,7 +100,7 @@ const BlogListView = ({ user }) => {
       )}
 
       {[...blogs].sort((a,b) => b.likes - a.likes).map(b => (
-        <Blog 
+        <Blog
           key={b.id}
           blog={b}
           onClick={() => openBlog(b.id)}

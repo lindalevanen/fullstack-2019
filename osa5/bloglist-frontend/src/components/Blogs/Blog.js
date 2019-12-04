@@ -4,12 +4,12 @@ import '../styles.css'
 
 const Blog = ({ blog, onClick, active, onBlogLike, onBlogRemove }) => (
   <div className='blog-item' onClick={onClick}>
-    {blog.title} {blog.author || 'Anonymous'}
+    {blog.title} {blog.author || 'Anonymous'}
     {active && (
       <>
         <p>{blog.url}</p>
         <p>{blog.likes} likes <button onClick={onBlogLike}>like</button></p>
-        <p>Added by {blog.user.name || blog.user.username}</p>
+        <p>Added by {blog.user.name || blog.user.username}</p>
       </>
     )}
     {onBlogRemove && <button onClick={() => onBlogRemove(blog.id)}>remove</button>}

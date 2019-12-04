@@ -14,7 +14,7 @@ const BlogForm = ({
   const handleSubmit = e => {
     e.preventDefault()
     if (newBlogTitle && newBlogAuthor && newBlogUrl) {
-      createBlog({title: newBlogTitle, author: newBlogAuthor, url: newBlogUrl})
+      createBlog({ title: newBlogTitle, author: newBlogAuthor, url: newBlogUrl })
     }
   }
 
@@ -33,9 +33,9 @@ const BlogForm = ({
   }
 
   const clearFields = () => {
-    setNewBlogAuthor('') 
-    setNewBlogTitle('') 
-    setNewBlogUrl('') 
+    setNewBlogAuthor('')
+    setNewBlogTitle('')
+    setNewBlogUrl('')
   }
 
   const onCancelPress = () => {
@@ -48,11 +48,11 @@ const BlogForm = ({
       <h2>Create new</h2>
 
       <div>
-        title: <input value={newBlogTitle} onChange={({target}) => setNewBlogTitle(target.value)} />
+        title: <input value={newBlogTitle} onChange={({ target }) => setNewBlogTitle(target.value)} />
         <br />
-        author: <input value={newBlogAuthor} onChange={({target}) => setNewBlogAuthor(target.value)} />
+        author: <input value={newBlogAuthor} onChange={({ target }) => setNewBlogAuthor(target.value)} />
         <br />
-        url: <input value={newBlogUrl} onChange={({target}) => setNewBlogUrl(target.value)} />
+        url: <input value={newBlogUrl} onChange={({ target }) => setNewBlogUrl(target.value)} />
       </div>
       <div>
         <button type="submit">create</button>
