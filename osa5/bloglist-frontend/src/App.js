@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import blogService from './services/blogs'
 import Login from './components/Login'
-import BlogListView from './components/BlogListView'
+import Blogs from './components/Blogs'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -20,7 +20,7 @@ function App() {
       {!user ? (
         <Login onUserReceived={setUser} />
       ) : (
-        <BlogListView user={user} />
+        <Blogs user={user} />
       )}
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import loginService from '../services/login' 
-import blogService from '../services/blogs'
-import Notification from './Notification'
+import loginService from '../../services/login' 
+import blogService from '../../services/blogs'
+import Notification from '../common/Notification'
 
 const Login = ({ onUserReceived }) => {
   const [username, setUsername] = useState('') 

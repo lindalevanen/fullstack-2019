@@ -1,5 +1,6 @@
 import React from 'react'
-import './styles.css'
+import PropTypes from 'prop-types'
+import '../styles.css'
 
 const Blog = ({ blog, onClick, active, onBlogLike, onBlogRemove }) => (
   <div className='blog-item' onClick={onClick}>
@@ -14,5 +15,17 @@ const Blog = ({ blog, onClick, active, onBlogLike, onBlogRemove }) => (
     {onBlogRemove && <button onClick={() => onBlogRemove(blog.id)}>remove</button>}
   </div>
 )
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired,
+  onBlogLike: PropTypes.func.isRequired,
+  onBlogRemove: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.bool
+  ])
+}
+
 
 export default Blog
