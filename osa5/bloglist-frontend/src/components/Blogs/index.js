@@ -11,7 +11,6 @@ const BlogListView = ({ user }) => {
   const [ blogs, setBlogs ] = useState([])
   const [ notificationMessage, setNotificationMessage ] = useState(null)
   const [ blogFormVisible, showBlogForm ] = useState(false)
-  const [ activeBlogId, setActiveBlogId ] = useState(null)
 
   useEffect(() => {
     const getBlogs = async () => {
@@ -38,10 +37,6 @@ const BlogListView = ({ user }) => {
   const addBlog = blog => {
     setBlogs(blogs.concat(blog))
     showNotification(`A new blog ${blog.title} by ${blog.author} added`, true)
-  }
-
-  const openBlog = blogId => {
-    setActiveBlogId(activeBlogId === blogId ? null : blogId)
   }
 
   const likeBlog =  async (blogId, newLikes) => {
@@ -103,8 +98,6 @@ const BlogListView = ({ user }) => {
         <Blog
           key={b.id}
           blog={b}
-          onClick={() => openBlog(b.id)}
-          active={b.id === activeBlogId}
           onBlogLike={(e) => { e.stopPropagation(); likeBlog(b.id, b.likes + 1) }}
           onBlogRemove={user.username === b.user.username && (() => removeBlog(b))}
         />
