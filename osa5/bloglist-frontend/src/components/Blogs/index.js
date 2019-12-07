@@ -99,7 +99,10 @@ const BlogListView = ({ user }) => {
           key={b.id}
           blog={b}
           onBlogLike={(e) => { e.stopPropagation(); likeBlog(b.id, b.likes + 1) }}
-          onBlogRemove={user.username === b.user.username && (() => removeBlog(b))}
+          onBlogRemove={
+            user.username === b.user.username &&
+              (e => { e.stopPropagation(); removeBlog(b) })
+          }
         />
       ))}
     </div>

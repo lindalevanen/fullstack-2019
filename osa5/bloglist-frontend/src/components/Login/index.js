@@ -3,16 +3,19 @@ import loginService from '../../services/login'
 import blogService from '../../services/blogs'
 import Notification from '../common/Notification'
 
+import { useField } from '../../hooks'
+
 const Login = ({ onUserReceived }) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField('text')
+  const password = useField('password')
+
   const [errorMessage, setErrorMessage] = useState(null)
 
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login({
-        username, password
+        username: username.value, password: password.value
       })
       blogService.setToken(user.token)
       window.localStorage.setItem('user', JSON.stringify(user))
@@ -42,21 +45,11 @@ const Login = ({ onUserReceived }) => {
       <form onSubmit={handleLogin}>
         <div>
           username
-          <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
+          <input {...username.fieldProps} />
         </div>
         <div>
           password
-          <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
+          <input {...password.fieldProps} />
         </div>
         <button type="submit">login</button>
       </form>

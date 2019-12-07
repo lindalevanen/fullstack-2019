@@ -15,7 +15,7 @@ const Blog = ({ blog, onBlogLike, onBlogRemove }) => {
           <p>Added by {blog.user.name || blog.user.username}</p>
         </div>
       )}
-      {onBlogRemove && <button onClick={() => onBlogRemove(blog.id)}>remove</button>}
+      {onBlogRemove && <button onClick={onBlogRemove}>remove</button>}
     </div>
 
   )

@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import blogService from '../../services/blogs'
+import { useField } from '../../hooks'
 
 
 const BlogForm = ({
@@ -7,14 +8,14 @@ const BlogForm = ({
   showNotification,
   onHideForm
 }) => {
-  const [ newBlogTitle, setNewBlogTitle ] = useState('')
-  const [ newBlogAuthor, setNewBlogAuthor ] = useState('')
-  const [ newBlogUrl, setNewBlogUrl ] = useState('')
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
 
   const handleSubmit = e => {
     e.preventDefault()
-    if (newBlogTitle && newBlogAuthor && newBlogUrl) {
-      createBlog({ title: newBlogTitle, author: newBlogAuthor, url: newBlogUrl })
+    if (title.value && author.value && url.value) {
+      createBlog({ title: title.value, author: author.value, url: url.value })
     }
   }
 
@@ -33,30 +34,25 @@ const BlogForm = ({
   }
 
   const clearFields = () => {
-    setNewBlogAuthor('')
-    setNewBlogTitle('')
-    setNewBlogUrl('')
-  }
-
-  const onCancelPress = () => {
-    clearFields()
-    onHideForm()
+    title.reset()
+    author.reset()
+    url.reset()
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} onReset={onHideForm}>
       <h2>Create new</h2>
 
       <div>
-        title: <input value={newBlogTitle} onChange={({ target }) => setNewBlogTitle(target.value)} />
+        title: <input {...title.fieldProps} />
         <br />
-        author: <input value={newBlogAuthor} onChange={({ target }) => setNewBlogAuthor(target.value)} />
+        author: <input {...author.fieldProps} />
         <br />
-        url: <input value={newBlogUrl} onChange={({ target }) => setNewBlogUrl(target.value)} />
+        url: <input {...url.fieldProps} />
       </div>
       <div>
-        <button type="submit">create</button>
-        <button type='button' onClick={onCancelPress}>cancel</button>
+        <button type='submit'>create</button>
+        <button type='reset'>cancel</button>
       </div>
     </form>
   )
