@@ -1,12 +1,14 @@
 import React from 'react'
-import { add } from '../reducers/anecdoteReducer'
+import { addAnecdote } from '../reducers/anecdoteReducer'
+import { showNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = ({ store }) => {
 
   const onAdd = (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
-    store.dispatch(add(content))
+    store.dispatch(addAnecdote(content))
+    store.dispatch(showNotification(`you added ${content}`))
     event.target.anecdote.value = ''
   }
 

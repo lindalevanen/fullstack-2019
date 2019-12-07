@@ -1,15 +1,26 @@
 import React from 'react'
+import { showNotification } from '../reducers/notificationReducer'
 
-const Notification = () => {
+const Notification = ({store}) => {
+  const { notification } = store.getState()
+
+  if (notification) {
+    setTimeout(() => {
+      store.dispatch(showNotification(null))
+    }, 5000)
+  }
+
   const style = {
     border: 'solid',
     padding: 10,
     borderWidth: 1
   }
   return (
-    <div style={style}>
-      render here notification...
-    </div>
+    notification ?
+      <div style={style}>
+        {notification}
+      </div>
+    : <></>
   )
 }
 

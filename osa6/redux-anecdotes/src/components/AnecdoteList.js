@@ -1,22 +1,28 @@
 import React from 'react'
-import { vote } from '../reducers/anecdoteReducer'
+import { voteAnecdote } from '../reducers/anecdoteReducer'
+import { showNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = ({ store }) => {
-  const anecdotes = store.getState()
+  const anecdotes = store.getState().anecdotes
+  const filter = store.getState().filter
 
-  const onVote = (id) => {
-    store.dispatch(vote(id))
+  const onVote = (a) => {
+    store.dispatch(voteAnecdote(a.id))
+    store.dispatch(showNotification(`you voted ${a.content}`))
   }
 
   return (
-    [...anecdotes].sort((a,b) => b.votes - a.votes).map(anecdote =>
+    [...anecdotes]
+      .sort((a,b) => b.votes - a.votes)
+      .filter(a => a.content.includes(filter))
+      .map(anecdote =>
       <div key={anecdote.id}>
         <div>
           {anecdote.content}
         </div>
         <div>
           has {anecdote.votes}
-          <button onClick={() => onVote(anecdote.id)}>vote</button>
+          <button onClick={() => onVote(anecdote)}>vote</button>
         </div>
       </div>
     )
