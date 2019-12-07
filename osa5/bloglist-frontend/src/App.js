@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import blogService from './services/blogs'
 import Login from './components/Login'
 import Blogs from './components/Blogs'
@@ -23,7 +23,7 @@ function App() {
         <Blogs user={user} />
       )}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

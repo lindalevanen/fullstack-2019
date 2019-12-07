@@ -78,7 +78,7 @@ const BlogListView = ({ user }) => {
   }
 
   return (
-    <>
+    <div className='blogs-wrapper'>
       <h2>Blogs</h2>
       <Notification message={notificationMessage}  />
 
@@ -102,7 +102,7 @@ const BlogListView = ({ user }) => {
           onBlogRemove={user.username === b.user.username && (() => removeBlog(b))}
         />
       ))}
-    </>
+    </div>
   )
 }
 
