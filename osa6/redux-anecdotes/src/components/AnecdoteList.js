@@ -8,7 +8,7 @@ const AnecdoteList = props => {
   const { anecdotes } = props
 
   const onVote = (a) => {
-    props.voteAnecdote(a.id)
+    props.voteAnecdote(a, a.votes + 1)
     props.showNotification(`you voted ${a.content}`)
   }
 
