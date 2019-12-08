@@ -1,16 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { showNotification } from '../reducers/notificationReducer'
-
 const Notification = props => {
   const { notification } = props
-
-  if (notification) {
-    setTimeout(() => {
-      props.showNotification(null)
-    }, 5000)
-  }
 
   const style = {
     border: 'solid',
@@ -33,8 +25,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = {
-  showNotification
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Notification)
+export default connect(mapStateToProps)(Notification)
