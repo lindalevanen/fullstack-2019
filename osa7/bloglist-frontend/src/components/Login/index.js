@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 import loginService from '../../services/login'
 import blogService from '../../services/blogs'
@@ -8,7 +9,7 @@ import Notification from '../common/Notification'
 import { useField } from '../../hooks'
 import { setNotification } from '../../reducers/notificationReducer'
 
-const Login = ({ onUserReceived, notification, setNotification }) => {
+const Login = ({ onUserReceived, appUser, notification, setNotification }) => {
   const username = useField('text')
   const password = useField('password')
 
@@ -29,6 +30,10 @@ const Login = ({ onUserReceived, notification, setNotification }) => {
         setNotification('An error occurred...', false, 5)
       }
     }
+  }
+
+  if(appUser) {
+    return <Redirect to='/' />
   }
 
   return (

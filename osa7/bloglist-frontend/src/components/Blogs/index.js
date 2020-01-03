@@ -9,9 +9,9 @@ import BlogForm from './BlogForm'
 import Notification from '../common/Notification'
 
 import { setNotification } from '../../reducers/notificationReducer'
-import { setBlogs } from '../../reducers/blogReducer'
+import { initBlogs, setBlogs } from '../../reducers/blogReducer'
 
-const BlogListView = ({ user, notification, setNotification, blogs, initBlogs }) => {
+const BlogListView = ({ user, setNotification, blogs, initBlogs, setBlogs }) => {
   const [ blogFormVisible, showBlogForm ] = useState(false)
 
   useEffect(() => {
@@ -30,15 +30,10 @@ const BlogListView = ({ user, notification, setNotification, blogs, initBlogs })
     getBlogs()
   }, [setNotification, setBlogs])
 
-  const logout = () => {
-    window.localStorage.removeItem('user')
-    window.location.reload(true)
-  }
-
   const likeBlog =  async (blogId, newLikes) => {
     try {
       const resBlog = await blogService.update(blogId, newLikes)
-      setBlogs(blogs.map(b => b.id !== resBlog.id ? b : resBlog)) //TODO VOTE/LIKE ?? TO REDUCER
+      setBlogs(blogs.map(b => b.id !== resBlog.id ? b : resBlog)) // TODO VOTE/LIKE?? TO REDUCER
     } catch(error) {
       handleError(error)
     }
@@ -68,11 +63,6 @@ const BlogListView = ({ user, notification, setNotification, blogs, initBlogs })
 
   return (
     <div className='blogs-wrapper'>
-      <h2>Blogs</h2>
-      <Notification notification={notification}  />
-
-      <p>{user.username} logged in <button onClick={logout}>logout</button></p>
-
       {blogFormVisible ? (
         <BlogForm
           onHideForm={() => showBlogForm(false)}
@@ -105,7 +95,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   setNotification,
-  initBlogs
+  initBlogs,
+  setBlogs
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlogListView)

@@ -10,56 +10,121 @@ import Login from './components/Login'
 import Blogs from './components/Blogs'
 import Users from './components/Users'
 import User from './components/Users/User'
+import Notification from './components/common/Notification'
 
-import { setUser, getUserList } from './reducers/userReducer'
+import { setAppUser } from './reducers/userReducer'
 
-const App = ({ user: { appUser }, setUser }) => {
+const PrivateRoute = ({
+  component: Component,
+  isAuthenticated,
+  componentProps,
+  user,
+  notification,
+  ...rest
+}) => {
+  console.log(Component)
+  console.log(isAuthenticated)
+
+  const logout = () => {
+    window.localStorage.removeItem('user')
+    window.location.reload(true)
+  }
+
+  if(isAuthenticated) {
+    return (
+      <div>
+        <h2>Blogs</h2>
+        <Notification notification={notification}  />
+
+        <p>{user && user.username} logged in <button onClick={logout}>logout</button></p>
+        <Component {...componentProps} {...rest} />
+      </div>
+    )
+  } else {
+    return <Redirect to='/login' />
+  }
+}
+
+const privaRouteStateToProps = state => {
+  return {
+    notification: state.notification,
+    user: state.user.appUser
+  }
+}
+
+const PrivaRouteWithWrap = connect(privaRouteStateToProps, null)(PrivateRoute)
+
+const App = ({ appUser, setAppUser }) => {
   useEffect(() => {
+    console.log('yo')
     const loggedUserJSON = window.localStorage.getItem('user')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      setAppUser(user)
       blogService.setToken(user.token)
     }
-  }, [setUser])
+  }, [])
 
-  useEffect(() => {
-    getUserList()
-  })
-
-  if(!appUser) {
-    return <Redirect to='/login' />
-  }
+  console.log(appUser)
 
   return (
     <div className="App">
       <Router>
-        <Route exact path="/" render={() =>
-          <Blogs user={appUser} />
-        } />
-        <Route exact path="/login" render={() =>
-          <Login onUserReceived={setUser} />
-        } />
-        <Route exact path="/users" render={() =>
-          <Users />
-        } />
-        <Route path="/users/:id" render={({ match }) =>
-          <User userId={match.params.id} />
-        } />
+        <div>
+          <Route
+            render={props => (
+              <PrivaRouteWithWrap
+                isAuthenticated={appUser}
+                component={Blogs}
+                componentProps={{ user: appUser }}
+                {...props} />
+            )}
+            exact
+            path='/'
+          />
+          <Route
+            render={props => (
+              <PrivaRouteWithWrap
+                isAuthenticated={appUser}
+                component={Users}
+                {...props}
+              />
+            )}
+            exact
+            path='/users'
+          />
+          <Route
+            render={props => (
+              <PrivaRouteWithWrap
+                isAuthenticated={appUser}
+                component={User}
+                componentProps={{ userId: props.match.params.id }}
+                {...props}
+              />
+            )}
+            exact
+            path='/users/:id'
+          />
+          <Route exact path="/login" render={() =>
+            <Login onUserReceived={setAppUser} appUser={appUser} />
+          } />
+
+        </div>
+
       </Router>
+
     </div>
   )
 }
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    appUser: state.user.appUser
   }
 }
 
 const mapDispatchToProps = {
-  setUser,
-  getUserList
+  setAppUser
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
