@@ -20,6 +20,7 @@
 }
 
 .blog-item {
+  display: block;
   padding: .5em .1em;
   border: 2px solid black;
   border-radius: 5px;

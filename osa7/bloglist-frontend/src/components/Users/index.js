@@ -6,25 +6,11 @@ import { Link } from 'react-router-dom'
 
 import { initUsers } from '../../reducers/userReducer'
 
-const UserListView = ({ setNotification, allUsers, initUsers }) => {
+const UserListView = ({ allUsers, initUsers }) => {
 
   useEffect(() => {
-    const getUsers = async () => {
-      try {
-        initUsers()
-      } catch(error) {
-        console.log(error.response.data)
-        if(error.response.data.error) {
-          setNotification(error.response.data.error, false, 10)
-        } else {
-          setNotification('An error occurred...', false, 10)
-        }
-      }
-    }
-    getUsers()
-  }, [])
-
-  console.log(allUsers)
+    initUsers()
+  }, [initUsers])
 
   return (
     <div className='users-wrapper'>

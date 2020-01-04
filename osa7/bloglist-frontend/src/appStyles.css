@@ -1,0 +1,38 @@
+body, html {
+  margin: 0;
+  height: 100%;
+  background: rgb(238,174,202);
+  background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+}
+
+.main-content {
+  margin: 10px;
+}
+
+.nav-menu {
+  background-color: rgba(109, 139, 173,.5);
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav-menu a { color: blue; }
+
+button {
+  background: pink;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid red;
+}
+
+span {
+  font-size: 14px;
+  color: purple;
+}
+
+h1, h2, h3 {
+  color: darkblue;
+  font-weight: bold;
+}

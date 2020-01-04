@@ -1,4 +1,5 @@
 import userService from '../services/users'
+import handleError from './errorHandler'
 
 const initialState = {
   appUser: JSON.parse(window.localStorage.getItem('user')) || null,
@@ -13,7 +14,6 @@ const reducer = (state = initialState, action) => {
     case 'INIT_USERS':
       return { ...state, allUsers: action.data }
     case 'SET_VIEW_USER':
-      console.log(action.data)
       return { ...state, viewUser: action.data }
     default: return state
   }
@@ -28,22 +28,29 @@ export const setAppUser = (user) => {
 
 export const getUser = (userId) => {
   return async dispatch => {
-    console.log('lolleros')
-    const data = await userService.getUser(userId)
-    dispatch({
-      type: 'SET_VIEW_USER',
-      data
-    })
+    try {
+      const data = await userService.getUser(userId)
+      dispatch({
+        type: 'SET_VIEW_USER',
+        data
+      })
+    } catch (error) {
+      handleError(error, dispatch)
+    }
   }
 }
 
 export const initUsers = () => {
   return async dispatch => {
-    const data = await userService.getAll()
-    dispatch({
-      type: 'INIT_USERS',
-      data
-    })
+    try {
+      const data = await userService.getAll()
+      dispatch({
+        type: 'INIT_USERS',
+        data
+      })
+    } catch (error) {
+      handleError(error, dispatch)
+    }
   }
 }
 

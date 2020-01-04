@@ -5,24 +5,11 @@ import { connect } from 'react-redux'
 
 import { getUser } from '../../reducers/userReducer'
 
-const User = ({ user, getUser, setNotification }) => {
+const User = ({ user, getUser }) => {
 
   useEffect(() => {
-    const init = async () => {
-      try {
-        !user && getUser()
-      } catch(error) {
-        console.log(error.response.data)
-        if(error.response.data.error) {
-          setNotification(error.response.data.error, false, 10)
-        } else {
-          setNotification('An error occurred...', false, 10)
-        }
-      }
-    }
-    init()
-  }, [])
-
+    !user && getUser()
+  }, [user, getUser])
 
   return (
     <div className='blogs-wrapper'>

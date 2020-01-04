@@ -37,7 +37,7 @@ const Login = ({ onUserReceived, appUser, notification, setNotification }) => {
   }
 
   return (
-    <>
+    <div className='main-content'>
       <h2>log in to application</h2>
       <Notification notification={notification}  />
 
@@ -52,7 +52,7 @@ const Login = ({ onUserReceived, appUser, notification, setNotification }) => {
         </div>
         <button type="submit">login</button>
       </form>
-    </>
+    </div>
   )
 }
 

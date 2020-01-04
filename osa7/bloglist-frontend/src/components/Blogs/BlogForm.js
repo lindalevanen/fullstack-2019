@@ -8,7 +8,6 @@ import { useField } from '../../hooks'
 
 const BlogForm = ({
   addBlog,
-  setNotification,
   onHideForm
 }) => {
   const title = useField('text')
@@ -23,17 +22,8 @@ const BlogForm = ({
   }
 
   const createBlog = async blog => {
-    try {
-      addBlog(blog)
-      setNotification(`A new blog ${blog.title} by ${blog.author} added`, true, 10)
-      clearFields()
-    } catch(error) {
-      if(error.response.data.error) {
-        setNotification(error.response.data.error, false, 10)
-      } else {
-        setNotification(`Creating the blog ${blog.title} failed.`, false, 10)
-      }
-    }
+    addBlog(blog)
+    clearFields()
   }
 
   const clearFields = () => {

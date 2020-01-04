@@ -8,11 +8,14 @@ import {
 import blogService from './services/blogs'
 import Login from './components/Login'
 import Blogs from './components/Blogs'
+import Blog from './components/Blogs/Blog'
+
 import Users from './components/Users'
 import User from './components/Users/User'
 import Notification from './components/common/Notification'
 
 import { setAppUser } from './reducers/userReducer'
+import './appStyles.css'
 
 const PrivateRoute = ({
   component: Component,
@@ -22,9 +25,6 @@ const PrivateRoute = ({
   notification,
   ...rest
 }) => {
-  console.log(Component)
-  console.log(isAuthenticated)
-
   const logout = () => {
     window.localStorage.removeItem('user')
     window.location.reload(true)
@@ -33,11 +33,18 @@ const PrivateRoute = ({
   if(isAuthenticated) {
     return (
       <div>
-        <h2>Blogs</h2>
-        <Notification notification={notification}  />
+        <div className='nav-menu'>
+          <a href='/'>Blogs</a>
+          <a href='/users'>Users</a>
+          <span> {user && user.username} logged in <button onClick={logout}>logout</button></span>
+        </div>
+        <div className='main-content'>
+          <h2>Blogs</h2>
+          <Notification notification={notification}  />
 
-        <p>{user && user.username} logged in <button onClick={logout}>logout</button></p>
-        <Component {...componentProps} {...rest} />
+          <Component {...componentProps} {...rest} />
+
+        </div>
       </div>
     )
   } else {
@@ -56,16 +63,13 @@ const PrivaRouteWithWrap = connect(privaRouteStateToProps, null)(PrivateRoute)
 
 const App = ({ appUser, setAppUser }) => {
   useEffect(() => {
-    console.log('yo')
     const loggedUserJSON = window.localStorage.getItem('user')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setAppUser(user)
       blogService.setToken(user.token)
     }
-  }, [])
-
-  console.log(appUser)
+  }, [setAppUser])
 
   return (
     <div className="App">
@@ -81,6 +85,18 @@ const App = ({ appUser, setAppUser }) => {
             )}
             exact
             path='/'
+          />
+          <Route
+            render={props => (
+              <PrivaRouteWithWrap
+                isAuthenticated={appUser}
+                component={Blog}
+                componentProps={{ blogId: props.match.params.id }}
+                {...props}
+              />
+            )}
+            exact
+            path='/blogs/:id'
           />
           <Route
             render={props => (
