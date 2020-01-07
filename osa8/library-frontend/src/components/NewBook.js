@@ -57,7 +57,7 @@ const NewBook = (props) => {
 
           <form onSubmit={(e) => { 
             submit(e);
-            addBook({variables: { title, author, published, genres }})
+            addBook({variables: { title, author, published: parseInt(published), genres }})
           }}>
             <div>
               title
@@ -78,7 +78,7 @@ const NewBook = (props) => {
               <input
                 type='number'
                 value={published}
-                onChange={({ target }) => setPublished(parseInt(target.value))}
+                onChange={({ target }) => setPublished(target.value)}
               />
             </div>
             <div>
