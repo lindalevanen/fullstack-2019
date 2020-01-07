@@ -6,7 +6,9 @@ export const ALL_BOOKS = gql`
 {
   allBooks {
     title
-    author
+    author {
+      name
+    }
     published
   }
 }
@@ -38,11 +40,11 @@ const Books = (props) => {
                 return <tr><td>loading...</td></tr>
               }
               return (
-                result.data.allBooks.map((a, i) =>
+                result.data.allBooks.map((b, i) =>
                   <tr key={i}>
-                    <td>{a.title}</td>
-                    <td>{a.author}</td>
-                    <td>{a.published}</td>
+                    <td>{b.title}</td>
+                    <td>{b.author.name}</td>
+                    <td>{b.published}</td>
                   </tr>
                 )
               )
