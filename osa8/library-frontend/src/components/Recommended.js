@@ -30,7 +30,6 @@ const Recommended = (props) => {
   const client = useApolloClient()
 
   useEffect(() => {
-    console.log("1")
     const getMe = async () => {
       const { data } = await client.query({
         query: GET_ME
@@ -42,14 +41,12 @@ const Recommended = (props) => {
   }, [client])
 
   useEffect(() => {
-    console.log("2")
     if(me) {
       const getRecommendedBooks = async () => {
         const { data } = await client.query({
           query: GET_BOOKS_BY_GENRE,
           variables: { genre: me.favoriteGenre }
         })
-        console.log(data)
         setRecBooks(data.allBooks)
       }
       getRecommendedBooks()

@@ -32,8 +32,6 @@ const Authors = (props) => {
 
   const submit = async (e) => {
     e.preventDefault()
-    console.log('modify birthyear...')
-
     setName('')
     setBorn('')
   }
