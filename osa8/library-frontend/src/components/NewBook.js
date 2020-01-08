@@ -14,7 +14,9 @@ const CREATE_BOOK = gql`
     ) {
       title
       published
-      author
+      author {
+        name
+      }
       genres
       id
     }
@@ -33,16 +35,24 @@ const NewBook = (props) => {
     return null
   }
 
-  const submit = async (e) => {
+  const submit = async (e, addBook) => {
     e.preventDefault()
 
-    console.log('add book...')
+    const res = await addBook({
+      variables: { 
+        title,
+        author,
+        published: parseInt(published), genres 
+      }
+    })
 
-    setTitle('')
-    setPublished('')
-    setAuhtor('')
-    setGenres([])
-    setGenre('')
+    if(res) {
+      setTitle('')
+      setPublished('')
+      setAuhtor('')
+      setGenres([])
+      setGenre('')  
+    }
   }
 
   const addGenre = () => {
@@ -55,10 +65,7 @@ const NewBook = (props) => {
       <Mutation mutation={CREATE_BOOK} refetchQueries={[{ query: ALL_BOOKS }]}>
         {(addBook) => (
 
-          <form onSubmit={(e) => { 
-            submit(e);
-            addBook({variables: { title, author, published: parseInt(published), genres }})
-          }}>
+          <form onSubmit={(e) => { submit(e, addBook);}}>
             <div>
               title
               <input
